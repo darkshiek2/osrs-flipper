@@ -1,0 +1,30 @@
+app = "osrs-flipper"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[build]
+  image = "osrs-flipper"
+
+[env]
+  DISCORD_TOKEN = "your_discord_token_here"
+  CHANNEL_ID = "your_channel_id_here"
+  REDIS_URL = "redis://fly-cache:6379"
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 80
+  [[services.ports]]
+    port = 443
+
+[mounts]
+  source="fly-cache"
+  destination="/data"
+
+[processes]
+web = "uvicorn api:app --host 0.0.0.0 --port $PORT"
+worker = "python worker.py"
+bot = "python bot.py"

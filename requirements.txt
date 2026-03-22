@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+aiohttp
+redis
+discord.py
+numpy
+pandas
+scikit-learn
